@@ -1,0 +1,86 @@
+version: '3.9'
+
+services:
+  keycloak-mysql:
+    container_name: keyclock-mysql
+    image: mysql:5.7.41-debian
+    volumes:
+      - ./data/mysql-keyclock:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root 
+      - MYSQL_DATABASE=keyclock
+      - MYSQL_USER=keyclock
+      - MYSQL_PASSWORD=password
+    restart: always
+    networks:
+      - infra-network
+  
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:20.0.3
+    command: ["start-dev", "--import-realm"]
+    environment:
+      - DB_VENDOR=MYSQL 
+      - DB_ADDR=mysql
+      - DB_DATABASE=keyclock
+      - DB_USER=keyclock
+      - DB_PASSWORD=password
+      - KEYCLOAK_ADMIN=admin 
+      - KEYCLOAK_ADMIN_PASSWORD=admin 
+    ports:
+      - 8080:8080
+    volumes:
+      - ./realms:/opt/keycloak/data/import
+    depends_on:
+      - keycloak-mysql
+    networks:
+      - infra-network
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - infra-network
+
+  discovery-server:
+    container_name: newyeti-discovery-server
+    image: sachindramaharjan/newyeti-discovery-server:latest
+    pull_policy: always
+    ports:
+      - 8761:8761
+    networks:
+      - infra-network
+  
+  config-server:
+    container_name: newyeti-config-server
+    image: sachindramaharjan/newyeti-config-server:latest
+    pull_policy: always
+    ports:
+      - 9091:9091
+    depends_on:
+      - discovery-server
+    networks:
+      - infra-network
+
+  api-gateway:
+    container_name: newyeti-api-gateway
+    image: sachindramaharjan/newyeti-api-gateway:latest
+    ports:
+      - 8181:8080
+    expose:
+      - 8181
+    environment:
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+    pull_policy: always
+    depends_on:
+      - discovery-server
+      - config-server
+      - keycloak
+      - zipkin
+    networks:
+      - infra-network
+
+networks:
+  infra-network:
+    driver: bridge
