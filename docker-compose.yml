@@ -78,6 +78,7 @@ services:
       - CONFIG_SERVER_URI=http://config-server
       - CONFIG_SERVER_PORT=9091
       - CONFIG_SERVER_TIMEOUT=300
+      - DISCOVERY_SERVER_HOSTNAME=${DISCOVERY_SERVER_HOSTNAME}
     pull_policy: always
     depends_on:
       - discovery-server
