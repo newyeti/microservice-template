@@ -50,7 +50,7 @@ Tracing is provided with Zipkin.
 
 ## Build and Run
 
-# Build image only
+### Build image only
 ```  
   # Local build
   make build-image
