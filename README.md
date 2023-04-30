@@ -50,14 +50,22 @@ Tracing is provided with Zipkin.
 
 ## Build and Run
 
-### To build image only
-```
+# Build image only
+```  
+  # Local build
   make build-image
+  
+  # Gitpod build
+  gitpod-build-image
 ```
 
 ### To build image and push it to registry
-```
+```  
+  # Local build
   make build
+  
+  # Gitpod build
+  gitpod-build
 ```
 
 ### To run application
