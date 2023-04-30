@@ -18,6 +18,7 @@
     <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring-cloud.version>2022.0.1</spring-cloud.version>
+    <micrometer.version>1.10.6</micrometer.version>
     <micrometer-tracing.version>1.0.3</micrometer-tracing.version>
     <io.opentelemetry.version>0.14.0</io.opentelemetry.version>
     <io.confluent.version>5.3.0</io.confluent.version>
@@ -44,6 +45,12 @@
         <version>${spring-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+          <groupId>io.micrometer</groupId>
+          <artifactId>micrometer-bom</artifactId>
+          <version>{micrometer.version}</version>
+          <type>pom</type>
       </dependency>
       <dependency>
         <groupId>io.micrometer</groupId>
