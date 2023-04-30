@@ -59,7 +59,7 @@ Tracing is provided with Zipkin.
   gitpod-build-image
 ```
 
-### To build image and push it to registry
+### Build image and push it to registry
 ```  
   # Local build
   make build
@@ -68,7 +68,7 @@ Tracing is provided with Zipkin.
   gitpod-build
 ```
 
-### To run application
+### Run docker containers defined in docker-compose.yml
 ```
   make up
 
@@ -77,7 +77,7 @@ Tracing is provided with Zipkin.
   docker compose up -d
 ```
 
-### To stop application
+### Stop docker containers defined in docker-compose.yml
 ```
   make down
 
