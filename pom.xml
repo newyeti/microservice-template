@@ -27,7 +27,6 @@
   </properties>
 
   <modules>
-    <module>${services}</module>
   </modules>
 
   <dependencyManagement>

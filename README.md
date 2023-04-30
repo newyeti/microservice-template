@@ -42,3 +42,39 @@ Tracing is provided with Zipkin.
 - Discovery Server
 - Config Server
 - API Gateway
+
+## Create new project
+- Create a new repository using microservice-template project
+- Create a new module in new repository
+- Add new module in main pom.xml
+
+## Build and Run
+
+### To build image only
+```
+  make build-image
+```
+
+### To build image and push it to registry
+```
+  make build
+```
+
+### To run application
+```
+  make up
+
+  OR
+
+  docker compose up -d
+```
+
+### To stop application
+```
+  make down
+
+  OR
+
+  docker compose down
+```
+
