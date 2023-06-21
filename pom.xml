@@ -5,17 +5,18 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.7</version>
     <relativePath/>
   </parent>
 
-  <groupId>com.newyeti</groupId>
+  <groupId>com.newyeti.template</groupId>
   <artifactId>main</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
+  <description>Main project for microservice template</description>
 
   <properties>
-    <java.version>17</java.version>
+   <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring-cloud.version>2022.0.1</spring-cloud.version>
     <micrometer.version>1.10.6</micrometer.version>
@@ -25,13 +26,48 @@
     <schema-registry.version>7.3.3</schema-registry.version>
     <apache.avro.version>1.11.1</apache.avro.version>
     <avro-maven-plugin.version>1.8.2</avro-maven-plugin.version>
+    <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+    <springdoc.openapi.version>1.6.9</springdoc.openapi.version>
+    <apache.commons.version>4.4</apache.commons.version>
+    <lombok-mapstruct-binding>0.2.0</lombok-mapstruct-binding>
+    <okhttp.version>4.11.0</okhttp.version>
+    <testcontainers.version>1.18.1</testcontainers.version>
+    <grafana.loki.version>1.4.1</grafana.loki.version>
+    <otel.api.version>1.26.0</otel.api.version>
+    <otel.api.trace.version>0.13.1</otel.api.trace.version>
+    <otel.api.metrics.version>1.10.0-alpha-rc.1</otel.api.metrics.version>
+    <powermock.junit4.version>2.0.9</powermock.junit4.version>
+    <powermock.api.version>1.7.4</powermock.api.version>
+    <jib.maven.plugin.version>3.3.1</jib.maven.plugin.version>
   </properties>
 
   <modules>
+    <module>common</module>
+    <module>domain</module>
+    <module>infrastructure</module>
+    <module>application</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Internal Dependencies -->
+      <dependency>
+        <groupId>com.newyeti.template</groupId>
+        <artifactId>common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.newyeti.template</groupId>
+        <artifactId>domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.newyeti.template</groupId>
+        <artifactId>infrastructure</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- External Dependencies -->
       <dependency>
         <groupId>org.testcontainers</groupId>
         <artifactId>testcontainers-bom</artifactId>
@@ -43,26 +79,6 @@
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
         <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-          <groupId>io.micrometer</groupId>
-          <artifactId>micrometer-bom</artifactId>
-          <version>{micrometer.version}</version>
-          <type>pom</type>
-      </dependency>
-      <dependency>
-        <groupId>io.micrometer</groupId>
-        <artifactId>micrometer-tracing-bom</artifactId>
-        <version>${micrometer-tracing.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>io.opentelemetry</groupId>
-        <artifactId>bom</artifactId>
-        <version>${io.opentelemetry.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -80,6 +96,91 @@
         <groupId>org.apache.avro</groupId>
         <artifactId>avro</artifactId>
         <version>${apache.avro.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${org.mapstruct.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct-processor</artifactId>
+        <version>${org.mapstruct.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-mapstruct-binding</artifactId>
+        <version>${lombok-mapstruct-binding}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc.openapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>${apache.commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>${okhttp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>mockwebserver</artifactId>
+        <version>${okhttp.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.github.loki4j</groupId>
+          <artifactId>loki-logback-appender</artifactId>
+          <version>${grafana.loki.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>io.opentelemetry</groupId>
+          <artifactId>opentelemetry-api</artifactId>
+          <version>${otel.api.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>io.opentelemetry.instrumentation</groupId>
+          <artifactId>opentelemetry-instrumentation-annotations</artifactId>
+          <version>${otel.api.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>io.opentelemetry</groupId>
+          <artifactId>opentelemetry-api-trace</artifactId>
+          <version>${otel.api.trace.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>io.opentelemetry</groupId>
+          <artifactId>opentelemetry-api-metrics</artifactId>
+          <version>${otel.api.metrics.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.testcontainers</groupId>
+          <artifactId>testcontainers</artifactId>
+          <version>${testcontainers.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${testcontainers.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>kafka</artifactId>
+        <version>${testcontainers.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-module-junit4</artifactId>
+        <version>${powermock.junit4.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito</artifactId>
+        <version>${powermock.api.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -128,7 +229,7 @@
             <image>eclipse-temurin:19.0.2_7-jre-alpine</image>
           </from>
           <to>
-            <image>registry.hub.docker.com/sachindramaharjan/datahub-${project.artifactId}</image>
+            <image>registry.hub.docker.com/sachindramaharjan/newyeti-${project.artifactId}</image>
           </to>
         </configuration>
       </plugin>

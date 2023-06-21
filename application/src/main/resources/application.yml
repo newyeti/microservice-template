@@ -1,0 +1,61 @@
+
+server:
+  port: 4000
+
+spring:
+  application:
+    name: template-application
+  cloud:
+    discovery:
+      enabled: false
+    config:
+      enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  tracing:
+    sampling:
+      probability: 1.0
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+
+logging:
+  pattern:
+    level: "%5p app_name=[${spring.producer.name:} trace_id=%mdc{trace_id:-} span_id=%mdc{span_id:-} trace_flags=%mdc{trace_flags} %p]"
+    
+---
+
+spring:
+  config:
+    activate:
+      on-profile:
+      - dev
+  cloud:
+    discovery:
+      enabled: false
+    config:
+      enabled: falsw
+      
+server:
+  port: 7001
+
+---
+
+spring:
+  config:
+    import: configserver:http://config-server:9091
+    activate:
+      on-profile:
+      - docker
+  cloud:
+    config:
+        enabled: true
+    discovery:
+      enabled: true
