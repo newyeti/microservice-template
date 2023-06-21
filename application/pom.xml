@@ -184,7 +184,7 @@
 					<extraDirectories>
 						<paths>
 							<path>
-								<from>../../scripts/jib</from>
+								<from>../scripts/jib</from>
 								<into>/app</into>
 							</path>
 						</paths>
