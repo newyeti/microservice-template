@@ -3,10 +3,10 @@ global:
   evaluation_interval: 10s
 
 scrape_configs:
-  - job_name: 'api_gateway'
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['api-gategay:8181']
-        labels:
-          application: 'API Gategay'
+   - job_name: 'template-application'
+     metrics_path: '/actuator/prometheus'
+     static_configs:
+        - targets: ['template-application:4000']
+          labels:
+            application: 'template-application'
   
