@@ -48,6 +48,35 @@
     <module>application</module>
   </modules>
 
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>dev</value>
+        </property>
+      </activation>
+      <properties>
+        <docker.registry>registry.hub.docker.com/${env.DOCKERHUB_USERNAME}</docker.registry>
+        <git.tag>${env.GIT_TAG}</git.tag>
+      </properties>
+    </profile>
+    <profile>
+      <id>gcp</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>gcp</value>
+        </property>
+      </activation>
+      <properties>
+        <docker.registry>us-central1-docker.pkg.dev/${env.PROJECT_ID}/images</docker.registry>
+        <git.tag>${env.GIT_TAG}</git.tag>
+      </properties>
+    </profile>
+  </profiles>
+
   <dependencyManagement>
     <dependencies>
       <!-- Internal Dependencies -->

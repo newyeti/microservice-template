@@ -165,12 +165,13 @@
 				<version>${jib.maven.plugin.version}</version>
 				<configuration>
 					<from>
-						<image>sachindramaharjan/jre-alpine-curl:19.0.2_7-jre-alpine</image>
-					</from>
-					<to>
-						<image>registry.hub.docker.com/sachindramaharjan/newyeti-template-application</image>
-					</to>
+            <image>eclipse-temurin@sha256:dde223014bd6917ea00d9eb370add424dc5dfcbcfcb8e8efac15a050563d312e</image>
+          </from>
+          <to>
+            <image>${docker.registry}/newyeti-${project.artifactId}:${git.tag}</image>
+          </to>
 					<container>
+						<mainClass>com.newyeti.template.application.Application</mainClass>
 						<environment>
 							<JAVA_OPTS>-Xms512m -Xmx1024m</JAVA_OPTS>
 							<ENTRYPOINT>com.newyeti.template.application.Application</ENTRYPOINT>
